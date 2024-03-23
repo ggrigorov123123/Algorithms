@@ -9,6 +9,10 @@ public class Main {
         System.out.printf("Index of %d in [ %s ] is: %d", i, Arrays.stream(arr).mapToObj(String::valueOf).collect(Collectors.joining(",")), binarySearch(arr, i));
     }
 
+    //Time Complexity: O(log N)
+    //Faster than linear search, especially for large arrays
+    //Input array must be sorted
+    //Elements of the array should be comparable, meaning that they must be able to be ordered
     public static int binarySearch(int[] arr, int i) {
         int min = 0;
         int max = arr.length - 1;
