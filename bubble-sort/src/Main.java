@@ -28,6 +28,11 @@ public class Main {
         Arrays.stream(arrCopy).forEach(e -> System.out.printf("%d ", e));
         System.out.println();
 
+//        ------------------------------------------
+//        Array size: 100000
+//        Optimized Time: 11711 ms
+//        Normal Time: 12469 ms
+//        ------------------------------------------
         System.out.println("------------------------------------------");
         System.out.printf("Optimized Time: %d ms\n", endOptimizedSort);
         System.out.printf("Normal Time: %d ms\n", endSort);
