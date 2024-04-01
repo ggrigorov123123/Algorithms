@@ -7,12 +7,21 @@ public class Main {
 
         var factorialTarget = BigDecimal.valueOf(10000);
 
+        //Normal recursion impl
         var startRecursion = System.currentTimeMillis();
         var resultRecursion = factorial(factorialTarget);
         System.out.println(resultRecursion);
         System.out.println("Result length: " + resultRecursion.toString().length());
         var timeRecursion = System.currentTimeMillis() - startRecursion;
         System.out.println("Time to execute: " + timeRecursion);
+
+        //Tail recursion impl - still throwing StackOverflowException
+        var startTailRecursion = System.currentTimeMillis();
+        var resultTailRecursion = factorialWithTailRecursion(factorialTarget);
+        System.out.println(resultTailRecursion);
+        System.out.println("Result length: " + resultRecursion.toString().length());
+        var timeTailRecursion = System.currentTimeMillis() - startTailRecursion;
+        System.out.println("Time to execute: " + timeTailRecursion);
 
         //factorial queue impl
         var startQueue = System.currentTimeMillis();
@@ -32,14 +41,20 @@ public class Main {
         System.out.println("--------------------");
         System.out.println("Target: " + factorialTarget);
         System.out.printf("Recursion Time: [%d]\n", timeRecursion);
+        System.out.printf("Tail Recursion Time: [%d]\n", timeTailRecursion);
         System.out.printf("Queue Time: [%d]\n", timeQueue);
         System.out.println("--------------------");
-        if (timeRecursion < timeQueue) {
+
+        if (timeRecursion < timeQueue && timeRecursion < timeTailRecursion) {
             System.out.println("Recursion wins!");
+        } else if (timeTailRecursion < timeQueue && timeTailRecursion < timeRecursion) {
+            System.out.println("Tail Recursion wins!");
         } else {
             System.out.println("Queue wins!");
         }
-        System.out.println("Same result -> " + (resultQueue.toString().length() == resultRecursion.toString().length()));
+        System.out.println("Same result -> " + (resultQueue.toString().length() == resultRecursion.toString().length() &&
+                resultTailRecursion.toString().length() == resultQueue.toString().length())
+        );
 
         System.out.println();
         System.out.println("-------------------------------------------------------------------------------------------------------------");
@@ -103,6 +118,18 @@ public class Main {
         }
 
         return result;
+    }
+
+    private static BigDecimal factorialWithTailRecursion(BigDecimal n) {
+        return factorialTail(n, BigDecimal.ONE);
+    }
+
+    private static BigDecimal factorialTail(BigDecimal n, BigDecimal result) {
+        if (n.equals(BigDecimal.ZERO)) {
+            return result;
+        }
+
+        return factorialTail(n.subtract(BigDecimal.ONE), n.multiply(result));
     }
 
     // 1 1 2 3 5 8 13 21 34 55
